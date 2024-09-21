@@ -1,0 +1,21 @@
+canvas {
+    background: green;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.score {
+    margin-left: 20px;
+    font-size: 40px;
+}
+
+.button {
+    padding: 20px;
+    background: blue;
+    color: white;
+    border: none;
+}
