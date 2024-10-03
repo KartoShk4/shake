@@ -84,7 +84,7 @@ export class Snake {
         } else {
             result.collision = true;
         }
-        
+
         return result;
     }
 

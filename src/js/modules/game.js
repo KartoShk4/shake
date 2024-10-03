@@ -2,7 +2,6 @@ import {Snake} from "./snake.js";
 import {Food} from "./food.js";
 
 export class Game {
-
     snake = null;
     context = null;
     positionsCount = null;
@@ -10,6 +9,8 @@ export class Game {
     score = null;
     scoreElement = null;
     interval = null;
+    isPaused = false;
+    pauseButton = null;
 
     constructor(context, settings) {
         this.context = context;
@@ -17,9 +18,14 @@ export class Game {
         this.positionsSize = settings.positionsSize;
 
         this.scoreElement = document.getElementById('score');
+        this.pauseButton = document.getElementById('pause');
 
         document.getElementById('start').onclick = () => {
             this.startGame();
+        }
+
+        document.getElementById('pause').onclick = () => {
+            this.togglePause();
         }
     }
 
@@ -27,16 +33,34 @@ export class Game {
         if (this.interval) {
             clearInterval(this.interval);
         }
+        this.score = 0;
+        this.scoreElement.innerText = this.score;
         this.food = new Food(this.context, this.positionsCount, this.positionsSize);
         this.snake = new Snake(this.context, this.positionsCount, this.positionsSize);
         this.food.setNewFoodPosition();
 
+        this.isPaused = false;
+        this.pauseButton.innerText = 'Пауза';
         this.interval = setInterval(this.gameProcess.bind(this), 100);
     }
 
+    togglePause() {
+        if (this.isPaused) {
+            this.isPaused = false;
+            this.pauseButton.innerText = 'Пауза';
+            this.interval = setInterval(this.gameProcess.bind(this), 100);
+        } else {
+            this.isPaused = true;
+            this.pauseButton.innerText = 'Продолжить';
+            clearInterval(this.interval);
+        }
+    }
+
     gameProcess() {
+        if (this.isPaused) return;
+
         this.context.clearRect(0, 0, this.positionsCount * this.positionsSize, this.positionsCount * this.positionsSize);
-        this.showGrid();
+        // this.showGrid();
         this.food.showFood()
         let result = this.snake.showSnake(this.food.foodPosition);
         if (result) {
@@ -57,7 +81,8 @@ export class Game {
         this.context.font = 'bold 48px Arial';
         this.context.textAlign = 'center';
         this.context.fillText(`Вы набрали: ${this.score} очков!`,
-            (this.positionsCount * this.positionsSize) / 2, (this.positionsCount * this.positionsSize) / 2)
+            (this.positionsCount * this.positionsSize) / 2, (this.positionsCount * this.positionsSize) / 2);
+        this.pauseButton.innerText = 'Пауза';
     }
 
     showGrid() {

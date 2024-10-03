@@ -1,3 +1,10 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+}
+
 canvas {
     background: green;
 }
@@ -14,8 +21,11 @@ canvas {
 }
 
 .button {
+    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
     padding: 20px;
     background: blue;
     color: white;
     border: none;
+    margin-right: 10px;
+    transition: all 0.3s ease-in-out;
 }
